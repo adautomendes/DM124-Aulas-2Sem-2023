@@ -1,0 +1,20 @@
+const express = require('express');
+const rootRouter = express.Router();
+const PetController = require('./src/controllers/PetController');
+
+rootRouter.get('/', (req, res) => {
+    res.status(200).json({
+        msg: "Hello world - GET"
+    });
+});
+
+const petRouter = express.Router();
+
+rootRouter.use('/pet', petRouter);
+
+petRouter.post('/', PetController.validar, PetController.inserir);
+petRouter.patch('/:nome', PetController.atualizar);
+petRouter.get('/', PetController.buscar);
+petRouter.delete('/:nome', PetController.excluir);
+
+module.exports = rootRouter;
