@@ -1,0 +1,47 @@
+version: "3.8"
+
+services:
+  mongo-db:
+    image: mongo
+    restart: unless-stopped
+    command:
+      - '--logpath'
+      - '/var/log/mongodb/mongod.log'
+    ports:
+      - "27017:27017"
+    networks:
+      - services-network
+  auth:
+    build:
+      dockerfile: ./Dockerfile
+      context: ./auth
+    ports:
+      - "3001:3001"
+    networks:
+      - services-network
+    environment:
+      - PORT=3001
+      - CHAVE_PRIVADA=UmaChavePrivadaBemGrandePraNinguemDescobrir
+      - EXPIRA_EM=1d
+  petstore:
+    build:
+      dockerfile: ./Dockerfile
+      context: ./petstore
+    ports:
+      - "3000:3000"
+    networks:
+      - services-network
+    depends_on:
+      - mongo-db
+      - auth
+    environment:
+      - PORT=3000
+      - MONGODB_HOST=mongo-db
+      - MONGODB_PORT=27017
+      - MONGODB_NAME=petstore
+      - AUTH_SERVER=http://auth:3001
+
+networks:
+  services-network:
+    driver: bridge
+  

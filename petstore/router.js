@@ -1,6 +1,7 @@
 const express = require('express');
 const rootRouter = express.Router();
 const PetController = require('./src/controllers/PetController');
+const AuthController = require('./src/controllers/AuthController');
 
 rootRouter.get('/', (req, res) => {
     res.status(200).json({
@@ -10,7 +11,7 @@ rootRouter.get('/', (req, res) => {
 
 const petRouter = express.Router();
 
-rootRouter.use('/pet', petRouter);
+rootRouter.use('/pet', AuthController.verificaJWT, petRouter);
 
 petRouter.post('/', PetController.validar, PetController.inserir);
 petRouter.patch('/:nome', PetController.atualizar);

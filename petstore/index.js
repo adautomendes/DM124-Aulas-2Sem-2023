@@ -2,6 +2,7 @@ const express = require('express');
 const rootRouter = require('./router');
 const mongoose = require('mongoose');
 const DB = require('./src/database/config');
+require('dotenv').config();
 
 const app = express();
 
@@ -15,5 +16,6 @@ mongoose.connect(DB.DB_URL, DB.DB_SETTINGS)
     .catch(erro => console.log(`Erro: ${erro}`));
 
 app.listen(porta, function() {
-    console.log("Servidor rodando...");
+    console.log(
+        (`Servidor rodando na porta ${porta}...`));
 });

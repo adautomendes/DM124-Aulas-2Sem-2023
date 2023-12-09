@@ -13,6 +13,7 @@ module.exports = {
     },
 
     async atualizar(req, res) {
+        // PATCH localhost:3000/pet/Caramelo
         const { nome } = req.params;
         const { raca, idade } = req.body;
 
