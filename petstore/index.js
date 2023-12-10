@@ -1,5 +1,5 @@
 const express = require('express');
-const rootRouter = require('./router');
+const rootRouter = require('./routes');
 const mongoose = require('mongoose');
 const DB = require('./src/database/config');
 require('dotenv').config();
